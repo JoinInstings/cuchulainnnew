@@ -1,0 +1,28 @@
+.dn-search-field {
+    text-align: left !important;
+}
+.dn-search-field:focus {
+    outline: none !important;
+}
+
+.autocomplete-results {
+    position: absolute;
+    border: 1px solid #ccc;
+    background: white;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    top: 45px;
+  }
+
+  .autocomplete-item {
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  .autocomplete-item:hover,
+  .autocomplete-item.active {
+    background-color: #f0f0f0;
+  }
