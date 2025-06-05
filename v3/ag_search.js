@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           const query = encodeURIComponent(input.value.trim());
           if (query) {
-            window.location.href = `search/results?query=${query}`;
+            window.location.href = `/search/results?query=${query}`;
           }
         }
       }
