@@ -87,11 +87,10 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
       } else if (e.key === "Enter") {
         e.preventDefault();
+        const items = dropdown.querySelectorAll(".autocomplete-item");
+
         if (currentFocus >= 0 && currentHits[currentFocus]) {
-          const selectedHit = currentHits[currentFocus];
-          if (selectedHit.URL_Link) {
-            window.location.href = selectedHit.URL_Link;
-          }
+          items[currentFocus].click(); // Simulate click to ensure consistent behavior
         } else {
           const query = encodeURIComponent(input.value.trim());
           if (query) {
