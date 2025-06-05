@@ -8,13 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const targetSelector = ".dn-search-results-container";
   const checkInterval = 300;
-
-  function slugify(text) {
-    return text
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric with hyphens
-      .replace(/^-+|-+$/g, ""); // Trim leading/trailing hyphens
-  }
   
 
   function getQueryParam(name) {
