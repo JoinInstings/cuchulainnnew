@@ -22,6 +22,43 @@ document.addEventListener("DOMContentLoaded", function () {
     dropdown.style.display = "none";
     input.parentNode.style.position = "relative";
     input.parentNode.appendChild(dropdown);
+    // Add mic button
+    const micButton = document.createElement("button");
+    micButton.type = "button";
+    micButton.innerHTML = "🎤";
+    micButton.style.position = "absolute";
+    micButton.style.right = "8px";
+    micButton.style.top = "50%";
+    micButton.style.transform = "translateY(-50%)";
+    micButton.style.border = "none";
+    micButton.style.background = "transparent";
+    micButton.style.cursor = "pointer";
+    micButton.style.fontSize = "18px";
+    input.parentNode.appendChild(micButton);
+
+    micButton.addEventListener("click", () => {
+      if (!("webkitSpeechRecognition" in window)) {
+        alert("Voice recognition not supported in this browser.");
+        return;
+      }
+
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        input.value = transcript;
+        input.dispatchEvent(new Event("input")); // trigger autocomplete search
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+      };
+    });
 
     let currentFocus = -1;
     let currentHits = [];
@@ -42,8 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
         option.addEventListener("click", () => {
           // const slug = slugify(hit.name);
           // window.location.href = `/create_products/${slug}`;
-          if (hit.product_url) {
-            window.location.href = hit.product_url;
+          if (hit.product_url || hit.product_page_url) {
+            window.location.href = hit.product_url || hit.product_page_url;
           }
         });
         dropdown.appendChild(option);

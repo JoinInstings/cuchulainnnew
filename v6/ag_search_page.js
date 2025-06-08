@@ -67,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       card.style.cursor = "pointer";
       card.addEventListener("click", () => {
-        if (hit.product_url) {
-          window.location.href = hit.product_url;
+        if (hit.product_url || hit.product_page_url) {
+          window.location.href = hit.product_url || hit.product_page_url;
         }
         // const slug = slugify(hit.name);
         // window.location.href = `/create_products/${slug}`;
