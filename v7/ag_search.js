@@ -21,6 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
   input.id = "search-input";
   input.placeholder = "Search products...";
 
+  const micButton = document.createElement("button");
+  micButton.id = "search-mic-button";
+  micButton.innerHTML = "🎤";
+  micButton.type = "button";
+
+  const inputWrapper = document.createElement("div");
+  inputWrapper.id = "search-input-wrapper";
+  inputWrapper.append(input, micButton);
+
   const recentContainer = document.createElement("div");
   recentContainer.id = "recent-searches";
 
@@ -36,18 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const showMoreContainer = document.createElement("div");
   showMoreContainer.id = "show-more-container";
 
-  const micButton = document.createElement("button");
-  micButton.id = "search-mic-button";
-  micButton.innerHTML = "🎤"; // or use a mic SVG
-  micButton.type = "button";
-
-
   resultsWrapper.append(results, showMoreContainer);
-  
-  const inputWrapper = document.createElement("div");
-  inputWrapper.id = "search-input-wrapper";
-  inputWrapper.append(input, micButton);
-
   overlay.append(
     closeBtn,
     inputWrapper,
@@ -55,16 +53,27 @@ document.addEventListener("DOMContentLoaded", () => {
     feedback,
     resultsWrapper
   );
-
   document.body.appendChild(overlay);
 
-  wrapper.addEventListener("click", () => {
+  // Opens the search popup and loads recent + results
+  function openSearchPopup() {
     input.value = wrapper.querySelector("input")?.value || "";
     overlay.style.display = "flex";
     input.focus();
     renderRecentSearches();
     searchProducts(input.value);
-  });
+  }
+
+  wrapper.addEventListener("click", openSearchPopup);
+
+  // Wait for mobile icon and bind
+  const waitForMobileIcon = setInterval(() => {
+    const mobileIcon = document.querySelector(".dn-nav-search");
+    if (mobileIcon) {
+      clearInterval(waitForMobileIcon);
+      mobileIcon.addEventListener("click", openSearchPopup);
+    }
+  }, 100);
 
   closeBtn.addEventListener("click", () => (overlay.style.display = "none"));
   overlay.addEventListener("click", (e) => {
@@ -81,25 +90,33 @@ document.addEventListener("DOMContentLoaded", () => {
     clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {
       searchProducts(input.value);
-    }, 1000);
+    }, 1000); // Debounce 1s
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const query = input.value.trim();
+      if (query) {
+        window.location.href = `/search/results?query=${encodeURIComponent(
+          query
+        )}`;
+      }
+    }
   });
 
   micButton.addEventListener("click", () => {
     if (!("webkitSpeechRecognition" in window)) {
-      alert("Sorry, your browser doesn't support speech recognition.");
+      alert("Sorry, your browser doesn't support voice search.");
       return;
     }
 
-    const recognition = new webkitSpeechRecognition(); // Chrome only
+    const recognition = new webkitSpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
     recognition.start();
-
-    recognition.onstart = () => {
-      micButton.classList.add("listening");
-    };
+    micButton.classList.add("listening");
 
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
@@ -114,17 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
     recognition.onend = () => {
       micButton.classList.remove("listening");
     };
-  });
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const query = input.value.trim();
-      if (query) {
-        window.location.href = `/search/results?query=${encodeURIComponent(
-          query
-        )}`;
-      }
-    }
   });
 
   function searchProducts(query) {
@@ -175,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         results.appendChild(card);
       });
 
-      if (nbHits > 4) {
+      if (nbHits > 5) {
         const showMoreBtn = document.createElement("button");
         showMoreBtn.className = "show-more-button";
         showMoreBtn.textContent = `Show more results for "${trimmed}" →`;
