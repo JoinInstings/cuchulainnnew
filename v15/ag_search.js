@@ -173,7 +173,7 @@ window.addEventListener("load", () => {
           `;
         card.addEventListener("click", () => {
           addRecent(q);
-          window.location.href = item.product_page_url;
+          window.location.href = item.product_page_url || item.product_url;
         });
         dropdown.appendChild(card);
       });
