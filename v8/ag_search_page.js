@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="content">
           <h4>${hit.name}</h4>
           <p>${hit.description || ""}</p>
-          <p><strong>${hit.Product_Price || ""}</strong></p>
+          <p><strong>€${hit.price_euro?.toFixed(2) || "—"}</strong></p>
         </div>
       `;
 
