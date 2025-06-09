@@ -1,3 +1,8 @@
+.dn-search-field {
+  text-align: left !important;
+  outline: none !important;
+}
+
 /* 1) Outer container styling */
 .suggestions-container {
   position: absolute;
