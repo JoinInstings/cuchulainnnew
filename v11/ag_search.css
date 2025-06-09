@@ -11,7 +11,8 @@
 
   /* shadow + rounded corners */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
   /* single 1px border around the whole thing */
   border: 1px solid #ccc;
 }

@@ -123,14 +123,25 @@ window.addEventListener("load", () => {
     // — show “Searching for …” —
     function showLoading(q) {
       renderRecent();
+      // if no recents AND user hasn’t typed anything yet, don’t show
+      if (!getRecent().length && !q) {
+        return (container.style.display = "none");
+      }
       dropdown.innerHTML = `<div class="dropdown-title">Searching for “${q}”</div>`;
       container.style.display = "block";
+
     }
 
     // — render results with title & cards —
     function renderDropdown(hits, q, total) {
       renderRecent();
       dropdown.innerHTML = "";
+
+      // if NO hits, hide the panel outright
+      if (!hits.length) {
+        return (container.style.display = "none");
+      }
+      
       // title
       const title = document.createElement("div");
       title.className = "dropdown-title";
@@ -212,10 +223,11 @@ window.addEventListener("load", () => {
         inputEl.value = last;
         inputEl.dispatchEvent(new Event("input"));
       } else {
-        renderRecent();
-        container.style.display = "block";
+        // NO recents ⇒ keep it hidden
+        container.style.display = "none";
       }
     });
+    
 
     // — on Enter: save & go to full-results —
     inputEl.addEventListener("keydown", (e) => {
