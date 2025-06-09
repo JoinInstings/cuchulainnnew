@@ -141,44 +141,43 @@ window.addEventListener("load", () => {
       renderRecent();
       dropdown.innerHTML = "";
 
-      // if NO hits, hide the panel outright
-      if (!hits.length) {
-        return (container.style.display = "none");
-      }
-      
-      // title
+      // Title always goes first
       const title = document.createElement("div");
       title.className = "dropdown-title";
       title.textContent = total
         ? `Found ${total} item${total > 1 ? "s" : ""}`
         : "No items found";
       dropdown.appendChild(title);
-      if (!hits.length) return (container.style.display = "block");
 
-      // cards
+      // If no hits, bail out but keep the container visible
+      if (!hits.length) {
+        return (container.style.display = "block");
+      }
+
+      // Otherwise render up to 5 cards…
       hits.slice(0, 5).forEach((item) => {
         const card = document.createElement("div");
         card.className = "search-card";
         card.innerHTML = `
-            <img src="${item.image_url}" alt="${item.name}" />
-            <div class="card-info">
-              <div class="product-name">${item.name}</div>
-              <div class="price">
-                ${new Intl.NumberFormat("en-IE", {
-                  style: "currency",
-                  currency: "EUR"
-                }).format(item.price_euro)}
-              </div>
+          <img src="${item.image_url}" alt="${item.name}" />
+          <div class="card-info">
+            <div class="product-name">${item.name}</div>
+            <div class="price">
+              ${new Intl.NumberFormat("en-IE", {
+                style: "currency",
+                currency: "EUR"
+              }).format(item.price_euro)}
             </div>
-          `;
+          </div>
+        `;
         card.addEventListener("click", () => {
           addRecent(q);
-          window.location.href = item.product_page_url || item.product_url;
+          window.location.href = item.product_page_url;
         });
         dropdown.appendChild(card);
       });
 
-      // “Show more”
+      // “Show more” link
       const more = document.createElement("div");
       more.className = "show-more";
       more.textContent = "Show more";
