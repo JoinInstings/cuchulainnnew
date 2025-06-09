@@ -105,10 +105,14 @@ window.addEventListener("load", () => {
 
     // — position container 20px below input, full-width —
     function position() {
-      const r = inputEl.getBoundingClientRect();
-      container.style.top = `${r.bottom + window.scrollY + 20}px`;
+      const rect = inputEl.getBoundingClientRect();
+      // if viewport ≤480px, use 60px; otherwise 20px
+      const isMobile = window.matchMedia("(max-width: 800px)").matches;
+      const offset = isMobile ? 60 : 20;
+      container.style.top = `${rect.bottom + window.scrollY + offset}px`;
       container.style.left = "0";
     }
+
     position();
     window.addEventListener("scroll", position);
     window.addEventListener("resize", position);
