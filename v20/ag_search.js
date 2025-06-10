@@ -266,7 +266,7 @@ window.addEventListener("load", () => {
       window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recognizer = new SpeechRecognition();
-      recognizer.lang = "en-US";
+      recognizer.lang = "en-GB";
       recognizer.interimResults = false;
       recognizer.maxAlternatives = 1;
 
