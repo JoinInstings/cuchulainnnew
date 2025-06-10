@@ -61,7 +61,7 @@ window.addEventListener("load", () => {
       filtered.unshift(q);
 
       // keep only the latest 5
-      if (filtered.length > 5) filtered.length = 5;
+      if (filtered.length > 20) filtered.length = 5;
 
       localStorage.setItem("recentSearches", JSON.stringify(filtered));
     }
@@ -154,7 +154,7 @@ window.addEventListener("load", () => {
       }
 
       // Otherwise render up to 5 cards…
-      hits.slice(0, 5).forEach((item) => {
+      hits.forEach((item) => {
         const card = document.createElement("div");
         card.className = "search-card";
         card.innerHTML = `
@@ -207,7 +207,7 @@ window.addEventListener("load", () => {
       // schedule the actual search 1s after the last keystroke
       searchTimeout = setTimeout(() => {
         index
-          .search(q, { hitsPerPage: 5 })
+          .search(q, { hitsPerPage: 20 })
           .then(({ hits, nbHits }) => renderDropdown(hits, q, nbHits))
           .catch((err) => {
             console.error(err);
