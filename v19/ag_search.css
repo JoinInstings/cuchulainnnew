@@ -225,3 +225,9 @@
 .dn-search-field-container input {
   padding-right: 36px;     /* make room for the button */
 }
+
+@media screen and (max-width: 768px) {
+  .voice-search-btn {
+    right: 148px;
+  }
+}
