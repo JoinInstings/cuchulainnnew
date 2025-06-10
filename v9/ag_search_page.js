@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       index
-        .search(query, { hitsPerPage: 20 })
+        .search(query, { hitsPerPage: 100 })
         .then(({ hits }) => {
           container.innerHTML = "";
           container.style.display = "block";
