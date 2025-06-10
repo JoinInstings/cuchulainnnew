@@ -133,7 +133,6 @@ window.addEventListener("load", () => {
       }
       dropdown.innerHTML = `<div class="dropdown-title">Searching for “${q}”</div>`;
       container.style.display = "block";
-
     }
 
     // — render results with title & cards —
@@ -230,7 +229,6 @@ window.addEventListener("load", () => {
         container.style.display = "none";
       }
     });
-    
 
     // — on Enter: save & go to full-results —
     inputEl.addEventListener("keydown", (e) => {
@@ -251,5 +249,64 @@ window.addEventListener("load", () => {
       if (q) addRecent(q);
     });
 
+    // 1a) Create & insert mic button
+    const micBtn = document.createElement("button");
+    micBtn.type = "button";
+    micBtn.className = "voice-search-btn";
+    micBtn.title = "Start voice search";
+    micBtn.innerHTML = "🎤"; // or use an <svg> icon
+
+    // ensure the input’s container is positioned
+    inputEl.parentNode.style.position = "relative";
+    // place the button inside the container
+    inputEl.parentNode.appendChild(micBtn);
+
+    // 3a) Cross-browser SpeechRecognition
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognizer = new SpeechRecognition();
+      recognizer.lang = "en-US";
+      recognizer.interimResults = false;
+      recognizer.maxAlternatives = 1;
+
+      let listening = false;
+
+      micBtn.addEventListener("click", () => {
+        if (!listening) {
+          recognizer.start();
+        } else {
+          recognizer.stop();
+        }
+      });
+
+      recognizer.addEventListener("start", () => {
+        listening = true;
+        micBtn.classList.add("listening");
+        micBtn.title = "Listening… click to stop";
+      });
+
+      recognizer.addEventListener("result", (evt) => {
+        const transcript = evt.results[0][0].transcript;
+        inputEl.value = transcript;
+        inputEl.dispatchEvent(new Event("input")); // trigger your existing search
+      });
+
+      recognizer.addEventListener("end", () => {
+        listening = false;
+        micBtn.classList.remove("listening");
+        micBtn.title = "Start voice search";
+      });
+
+      recognizer.addEventListener("error", (err) => {
+        console.error("Voice search error:", err);
+        listening = false;
+        micBtn.classList.remove("listening");
+        micBtn.title = "Start voice search";
+      });
+    } else {
+      // browser doesn’t support it—hide the button
+      micBtn.style.display = "none";
+    }
   });
 });

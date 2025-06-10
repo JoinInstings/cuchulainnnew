@@ -201,3 +201,27 @@
     font-size: 13px;
   }
 }
+
+.voice-search-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  color: #555;
+}
+.voice-search-btn.listening {
+  color: #d00;             /* indicate “listening” */
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.5; }
+}
+.dn-search-field-container input {
+  padding-right: 36px;     /* make room for the button */
+}
