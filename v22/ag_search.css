@@ -58,13 +58,6 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
   padding: 16px;
-
-   /* limit its height and enable internal scrolling */
-   max-height: calc(100vh - 150px);
-   overflow-y: auto;
-
-  /* prevent scroll from “bleeding” into the page behind */
-  overscroll-behavior: contain;
 }
 
 /* 5) Cards */
@@ -143,6 +136,14 @@
     width: 90vw;
     max-width: none;
     margin: 0 auto;
+
+    /* limit its height and enable internal scrolling */
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+
+    /* prevent scroll from “bleeding” into the page behind */
+    overscroll-behavior: contain;
+
   }
 
   .suggestions-dropdown {
