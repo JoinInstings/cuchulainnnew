@@ -316,6 +316,11 @@
 
 .facet-section h4 {
   margin-bottom: 10px !important;
+  font-weight: 700;
+  font-size: 16px;
+  background-color: #ddd;
+  padding: 4px 10px;
+  border-radius: 4px;
 }
 
 .facet-section ul li {
