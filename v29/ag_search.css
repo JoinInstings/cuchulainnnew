@@ -208,6 +208,9 @@
 .dn-search-field-container input {
   padding-right: 36px;
 }
+.dn-search-field-container input:focus {
+  border-bottom: 1px solid #000 !important;
+}
 
 /* ==========================================================
     Mobile-only Filter & Apply buttons (≤480px)
