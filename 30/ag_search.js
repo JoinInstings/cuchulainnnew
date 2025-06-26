@@ -59,14 +59,14 @@ window.addEventListener("load", () => {
     });
 
     // Prevent closing when clicking inside
-    ["mousedown","touchstart"].forEach(evt=>{
-      container.addEventListener(evt, e=>e.stopPropagation());
+    ["mousedown", "touchstart"].forEach((evt) => {
+      container.addEventListener(evt, (e) => e.stopPropagation());
       const wrap = inputEl.closest(".dn-search-field-container");
-      if (wrap) wrap.addEventListener(evt, e=>e.stopPropagation());
+      if (wrap) wrap.addEventListener(evt, (e) => e.stopPropagation());
     });
     // Close on outside click/touch
-    ["mousedown","touchstart"].forEach(evt=>{
-      document.addEventListener(evt, ()=>container.style.display="none");
+    ["mousedown", "touchstart"].forEach((evt) => {
+      document.addEventListener(evt, () => (container.style.display = "none"));
     });
 
     // ────────────────────────────────────────────────────────────
@@ -86,20 +86,22 @@ window.addEventListener("load", () => {
       container.classList.remove("open");
     });
 
-    const attrs = ["brand","colors","sizes"];
-    function capitalize(s){ return s[0].toUpperCase()+s.slice(1); }
+    const attrs = ["brand", "colors", "sizes"];
+    function capitalize(s) {
+      return s[0].toUpperCase() + s.slice(1);
+    }
 
     function renderFacets(facets) {
       facetsPane.innerHTML = "";
-      attrs.forEach(attr => {
-        const counts = facets[attr]||{};
+      attrs.forEach((attr) => {
+        const counts = facets[attr] || {};
         const sec = document.createElement("div");
         sec.className = "facet-section";
         sec.innerHTML = `
           <h4>${capitalize(attr)}</h4>
           <ul class="facet-list" data-attr="${attr}"></ul>`;
         const ul = sec.querySelector("ul");
-        Object.entries(counts).forEach(([v,c])=>{
+        Object.entries(counts).forEach(([v, c]) => {
           const chk = selectedFacets[attr].has(v) ? "checked" : "";
           const li = document.createElement("li");
           li.innerHTML = `
@@ -109,9 +111,9 @@ window.addEventListener("load", () => {
                      value="${v}" ${chk} />
               ${v} (${c})
             </label>`;
-          li.querySelector("input").addEventListener("change", e=>{
+          li.querySelector("input").addEventListener("change", (e) => {
             if (e.target.checked) selectedFacets[attr].add(v);
-            else                  selectedFacets[attr].delete(v);
+            else selectedFacets[attr].delete(v);
             performSearch(currentQuery);
           });
           ul.appendChild(li);
@@ -137,24 +139,25 @@ window.addEventListener("load", () => {
     main.appendChild(dropdown);
 
     function getRecent() {
-      return JSON.parse(localStorage.getItem("recentSearches")||"[]");
+      return JSON.parse(localStorage.getItem("recentSearches") || "[]");
     }
     function addRecent(q) {
       if (!q) return;
-      let arr = getRecent().filter(x=>x!==q);
-      arr.unshift(q); if(arr.length>5) arr.length=5;
-      localStorage.setItem("recentSearches",JSON.stringify(arr));
+      let arr = getRecent().filter((x) => x !== q);
+      arr.unshift(q);
+      if (arr.length > 5) arr.length = 5;
+      localStorage.setItem("recentSearches", JSON.stringify(arr));
     }
     function renderRecent() {
       const arr = getRecent();
       if (arr.length) {
-        recentContainer.style.display="flex";
-        recentContainer.innerHTML="";
-        arr.forEach(q=>{
+        recentContainer.style.display = "flex";
+        recentContainer.innerHTML = "";
+        arr.forEach((q) => {
           const d = document.createElement("div");
           d.className = "recent-item";
           d.textContent = q;
-          d.addEventListener("click",()=>{
+          d.addEventListener("click", () => {
             inputEl.value = q;
             performSearch(q);
           });
@@ -163,15 +166,15 @@ window.addEventListener("load", () => {
         const clr = document.createElement("div");
         clr.className = "clear-all";
         clr.textContent = "Clear all";
-        clr.addEventListener("click",()=>{
+        clr.addEventListener("click", () => {
           localStorage.removeItem("recentSearches");
           renderRecent();
           container.style.display = "none";
         });
         recentContainer.appendChild(clr);
       } else {
-        recentContainer.innerHTML="";
-        recentContainer.style.display="none";
+        recentContainer.innerHTML = "";
+        recentContainer.style.display = "none";
       }
     }
 
@@ -183,16 +186,16 @@ window.addEventListener("load", () => {
       const isMobile = window.matchMedia("(max-width:480px)").matches;
       if (isMobile) {
         container.classList.add("open");
-        container.style.top    = "60px";
-        container.style.left   = "0";
-        container.style.right  = "0";
+        container.style.top = "60px";
+        container.style.left = "0";
+        container.style.right = "0";
         container.style.bottom = "0";
       } else {
         container.classList.remove("open");
-        container.style.top  = `${rect.bottom + window.scrollY + 20}px`;
+        container.style.top = `${rect.bottom + window.scrollY + 20}px`;
         container.style.left = "0";
         container.style.right = "";
-        container.style.bottom= "";
+        container.style.bottom = "";
       }
     }
     position();
@@ -217,11 +220,12 @@ window.addEventListener("load", () => {
     // ────────────────────────────────────────────────────────────
     function buildFilters() {
       const out = [];
-      inner.querySelectorAll(".facet-list[data-attr]").forEach(ul=>{
+      inner.querySelectorAll(".facet-list[data-attr]").forEach((ul) => {
         const a = ul.dataset.attr;
-        const vals = Array.from(ul.querySelectorAll("input:checked"))
-                          .map(cb=>cb.value);
-        if(vals.length) out.push(vals.map(v=>`${a}:${v}`));
+        const vals = Array.from(ul.querySelectorAll("input:checked")).map(
+          (cb) => cb.value
+        );
+        if (vals.length) out.push(vals.map((v) => `${a}:${v}`));
       });
       return out;
     }
@@ -237,35 +241,36 @@ window.addEventListener("load", () => {
       }
       showLoading(q);
       const ff = buildFilters();
-      index.search(q, {
-        hitsPerPage:       100,
-        facetFilters:      ff.length ? ff : undefined,
-        facets:            ["brand","colors","sizes"],
-        maxValuesPerFacet: 10
-      })
-      .then(({hits,nbHits,facets})=>{
-        renderFacets(facets);
-        renderDropdown(hits,q,nbHits);
-      })
-      .catch(console.error);
+      index
+        .search(q, {
+          hitsPerPage: 100,
+          facetFilters: ff.length ? ff : undefined,
+          facets: ["brand", "colors", "sizes"],
+          maxValuesPerFacet: 10
+        })
+        .then(({ hits, nbHits, facets }) => {
+          renderFacets(facets);
+          renderDropdown(hits, q, nbHits);
+        })
+        .catch(console.error);
     }
 
     // ────────────────────────────────────────────────────────────
     // 8) renderDropdown
     // ────────────────────────────────────────────────────────────
-    function renderDropdown(hits,q,total) {
+    function renderDropdown(hits, q, total) {
       renderRecent();
       dropdown.innerHTML = "";
       const title = document.createElement("div");
       title.className = "dropdown-title";
       title.textContent = total
-        ? `Found ${total} item${total>1?"s":""}`
+        ? `Found ${total} item${total > 1 ? "s" : ""}`
         : "No items found";
       dropdown.appendChild(title);
 
-      if (!hits.length) return container.style.display="block";
+      if (!hits.length) return (container.style.display = "block");
 
-      hits.forEach(item=>{
+      hits.forEach((item) => {
         const card = document.createElement("div");
         card.className = "search-card";
         card.innerHTML = `
@@ -273,13 +278,19 @@ window.addEventListener("load", () => {
           <div class="card-info">
             <div class="product-name">${item.name}</div>
             <div class="price">
-              from ${new Intl.NumberFormat("en-IE",{style:"currency",currency:"EUR"}).format(item.regular_price)}
-              <br/>as low as ${new Intl.NumberFormat("en-IE",{style:"currency",currency:"EUR"}).format(item.as_low_as_price)}
+              from ${new Intl.NumberFormat("en-IE", {
+                style: "currency",
+                currency: "EUR"
+              }).format(item.regular_price)}
+              <br/>as low as ${new Intl.NumberFormat("en-IE", {
+                style: "currency",
+                currency: "EUR"
+              }).format(item.as_low_as_price)}
             </div>
           </div>`;
-        card.addEventListener("click",()=>{
+        card.addEventListener("click", () => {
           addRecent(q);
-          window.location.href=item.product_page_url;
+          window.location.href = item.product_page_url;
         });
         dropdown.appendChild(card);
       });
@@ -287,9 +298,9 @@ window.addEventListener("load", () => {
       const more = document.createElement("div");
       more.className = "show-more";
       more.textContent = "Show more";
-      more.addEventListener("click",()=>{
+      more.addEventListener("click", () => {
         addRecent(q);
-        window.location.href=`/search/results?query=${encodeURIComponent(q)}`;
+        window.location.href = `/search/results?query=${encodeURIComponent(q)}`;
       });
       dropdown.appendChild(more);
 
@@ -300,35 +311,99 @@ window.addEventListener("load", () => {
     // 9) Input events: debounce, reset facets, focus/enter/blur
     // ────────────────────────────────────────────────────────────
     let dt;
-    inputEl.addEventListener("input",()=>{
+    inputEl.addEventListener("input", () => {
       clearTimeout(dt);
       const q = inputEl.value.trim();
-      Object.values(selectedFacets).forEach(s=>s.clear());
-      inner.querySelectorAll(".facet-list input:checked")
-           .forEach(cb=>cb.checked=false);
-      dt = setTimeout(()=>performSearch(q),1000);
+      Object.values(selectedFacets).forEach((s) => s.clear());
+      inner
+        .querySelectorAll(".facet-list input:checked")
+        .forEach((cb) => (cb.checked = false));
+      dt = setTimeout(() => performSearch(q), 1000);
     });
-    inputEl.addEventListener("focus",()=>{
+    inputEl.addEventListener("focus", () => {
       const rec = getRecent();
-      rec.length ? performSearch(rec[0]) : container.style.display="none";
+      rec.length ? performSearch(rec[0]) : (container.style.display = "none");
     });
-    inputEl.addEventListener("keydown",e=>{
-      if(e.key==="Enter"){
-        const q=inputEl.value.trim();
-        if(q){
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const q = inputEl.value.trim();
+        if (q) {
           addRecent(q);
-          window.location.href=`/search/results?query=${encodeURIComponent(q)}`;
+          window.location.href = `/search/results?query=${encodeURIComponent(
+            q
+          )}`;
         }
       }
     });
-    inputEl.addEventListener("blur",()=>{
-      const q=inputEl.value.trim();
-      if(q) addRecent(q);
+    inputEl.addEventListener("blur", () => {
+      const q = inputEl.value.trim();
+      if (q) addRecent(q);
     });
 
-    // ────────────────────────────────────────────────────────────
-    // 10) Voice-search (unchanged)
-    // ────────────────────────────────────────────────────────────
-    // …your mic-button + SpeechRecognition code…
+    // On blur: save whatever was last typed
+    inputEl.addEventListener("blur", () => {
+      const q = inputEl.value.trim();
+      if (q) addRecent(q);
+    });
+
+    // 1a) Create & insert mic button
+    const micBtn = document.createElement("button");
+    micBtn.type = "button";
+    micBtn.className = "voice-search-btn";
+    micBtn.title = "Start voice search";
+    micBtn.innerHTML = "🎤"; // or use an <svg> icon
+
+    // ensure the input’s container is positioned
+    inputEl.parentNode.style.position = "relative";
+    // place the button inside the container
+    inputEl.parentNode.appendChild(micBtn);
+
+    // 3a) Cross-browser SpeechRecognition
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognizer = new SpeechRecognition();
+      recognizer.lang = "en-GB";
+      recognizer.interimResults = false;
+      recognizer.maxAlternatives = 1;
+
+      let listening = false;
+
+      micBtn.addEventListener("click", () => {
+        if (!listening) {
+          recognizer.start();
+        } else {
+          recognizer.stop();
+        }
+      });
+
+      recognizer.addEventListener("start", () => {
+        listening = true;
+        micBtn.classList.add("listening");
+        micBtn.title = "Listening… click to stop";
+      });
+
+      recognizer.addEventListener("result", (evt) => {
+        const transcript = evt.results[0][0].transcript;
+        inputEl.value = transcript;
+        inputEl.dispatchEvent(new Event("input")); // trigger your existing search
+      });
+
+      recognizer.addEventListener("end", () => {
+        listening = false;
+        micBtn.classList.remove("listening");
+        micBtn.title = "Start voice search";
+      });
+
+      recognizer.addEventListener("error", (err) => {
+        console.error("Voice search error:", err);
+        listening = false;
+        micBtn.classList.remove("listening");
+        micBtn.title = "Start voice search";
+      });
+    } else {
+      // browser doesn’t support it—hide the button
+      micBtn.style.display = "none";
+    }
   });
 });
