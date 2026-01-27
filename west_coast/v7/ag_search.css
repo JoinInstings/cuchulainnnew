@@ -23,6 +23,11 @@
     border-bottom-left-radius: 8px;
     border: 1px solid #ccc;
   }
+
+
+  #search_bar .dn-search-field-container input {
+    padding-left: 40px !important;
+  }
   
   /* ==========================================================
        2) Centered inner wrapper: sidebar + main area
@@ -184,7 +189,7 @@
        ========================================================== */
   .voice-search-btn {
     position: absolute;
-    right: 12px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;

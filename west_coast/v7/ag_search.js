@@ -401,7 +401,7 @@ window.addEventListener("load", () => {
     micBtn.type = "button";
     micBtn.className = "voice-search-btn";
     micBtn.title = "Start voice search";
-    micBtn.innerHTML = ""; // or use an <svg> icon
+    micBtn.innerHTML = "🎤"; // or use an <svg> icon
 
     // ensure the input's container is positioned
     inputEl.parentNode.style.position = "relative";
