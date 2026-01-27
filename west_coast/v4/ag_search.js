@@ -2,7 +2,7 @@
 // 0) Initialize Algolia client & index
 // ────────────────────────────────────────────────────────────────
 const client = algoliasearch("8F898N22SG","220989c4d1bf9e3c4c287803161b7c24");
-const index  = client.initIndex("west_coast_work_wear");
+const index  = client.initIndex("west_coast_work_wear_uk");
 
 // Track selected facets & last query
 const selectedFacets = { brand:new Set(), colors:new Set(), sizes:new Set() };
@@ -233,7 +233,7 @@ window.addEventListener("load", () => {
         container.style.bottom = "0";
       } else {
         container.classList.remove("open");
-        container.style.top = `${rect.bottom + window.scrollY + 20}px`;
+        container.style.top = `${rect.bottom + window.scrollY + 50}px`;
         container.style.left = "0";
         container.style.right = "";
         container.style.bottom = "";
@@ -401,7 +401,7 @@ window.addEventListener("load", () => {
     micBtn.type = "button";
     micBtn.className = "voice-search-btn";
     micBtn.title = "Start voice search";
-    micBtn.innerHTML = ""; // or use an <svg> icon
+    micBtn.innerHTML = "🎤"; // or use an <svg> icon
 
     // ensure the input's container is positioned
     inputEl.parentNode.style.position = "relative";

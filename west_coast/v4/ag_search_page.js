@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const ALGOLIA_APP_ID = "8F898N22SG";
   const ALGOLIA_API_KEY = "220989c4d1bf9e3c4c287803161b7c24";
-  const ALGOLIA_INDEX_NAME = "west_coast_work_wear";
+  const ALGOLIA_INDEX_NAME = "west_coast_work_wear_uk";
 
   const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_API_KEY);
   const index = client.initIndex(ALGOLIA_INDEX_NAME);
