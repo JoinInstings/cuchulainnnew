@@ -24,30 +24,9 @@
     border: 1px solid #ccc;
   }
 
-  #search_bar .dn-search-icon {
-    background-color: #fff !important;
-    width: 50px !important;
-    font-size: 22px !important;
-    height: 42px !important;
-    position: relative !important;
-    float: left !important;
-    border-left: 1px solid #1f478c !important;
-    border-right: none !important;
-    border-top: 1px solid #1f478c !important;
-    border-bottom: 1px solid #1f478c !important;
-    border-bottom-left-radius: 10px !important;
-    border-top-left-radius: 10px !important;
-    border-bottom-right-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-  }
 
-  .dn-search-field-right {
-    border-left: none !important;
-    border-right: 1px solid #1f478c !important;
-    border-bottom-right-radius: 10px !important;
-    border-top-right-radius: 10px !important;
-    border-bottom-left-radius: 0 !important;
-    border-top-left-radius: 0 !important;
+  #search_bar .dn-search-field-container input {
+    padding-left: 40px !important;
   }
   
   /* ==========================================================
@@ -210,7 +189,7 @@
        ========================================================== */
   .voice-search-btn {
     position: absolute;
-    right: 12px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;

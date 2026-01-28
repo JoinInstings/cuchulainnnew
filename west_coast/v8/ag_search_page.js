@@ -65,12 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
               from 
               ${new Intl.NumberFormat("en-IE", {
                 style: "currency",
-                currency: "EUR"
+                currency: "GBP"
               }).format(hit.regular_price)}
               as low as 
               ${new Intl.NumberFormat("en-IE", {
                 style: "currency",
-                currency: "EUR"
+                currency: "GBP"
               }).format(hit.as_low_as_price)}
             </div></strong></p>
         </div>

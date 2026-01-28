@@ -330,11 +330,11 @@ window.addEventListener("load", () => {
             <div class="price">
               from ${new Intl.NumberFormat("en-IE", {
                 style: "currency",
-                currency: "EUR"
+                currency: "GBP"
               }).format(item.regular_price)}
               <br/>as low as ${new Intl.NumberFormat("en-IE", {
                 style: "currency",
-                currency: "EUR"
+                currency: "GBP"
               }).format(item.as_low_as_price)}
             </div>
           </div>`;
