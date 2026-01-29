@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.24.0/dist/algoliasearch.umd.js" integrity="sha256-xuCFeRamFnnQX5L73AAMtQnz1S1xwihimc5dVgI5Kq8=" crossorigin="anonymous"></script>
 
-<script src="https://cdn.jsdelivr.net/gh/JoinInstings/cuchulainnnew/west_coast/v7/ag_search.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JoinInstings/cuchulainnnew/west_coast/v7/ag_search.css" />
+<script src="https://cdn.jsdelivr.net/gh/JoinInstings/cuchulainnnew/west_coast/v9/ag_search.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JoinInstings/cuchulainnnew/west_coast/v9/ag_search.css" />
 
-<script src="https://cdn.jsdelivr.net/gh/JoinInstings/cuchulainnnew/west_coast/v7/ag_search_page.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JoinInstings/cuchulainnnew/west_coast/v7/ag_search_page.css" />
+<script src="https://cdn.jsdelivr.net/gh/JoinInstings/cuchulainnnew/west_coast/v9/ag_search_page.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JoinInstings/cuchulainnnew/west_coast/v9/ag_search_page.css" />
